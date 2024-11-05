@@ -1,15 +1,25 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
-import TodoList from './components/TodoList'
+import "./App.css";
+import Header from "./components/Header";
+import ThemeSwitch from "./components/ThemeSwitch";
+import TodoList from "./components/TodoList";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { Provider } from "react-redux";
+import { store } from "./stores/store";
 
 function App() {
   return (
-   <div>
-    <TodoList />
-   </div>
-  )
+    <ThemeProvider>
+      <Provider store={store}>
+        <div>
+          <ThemeSwitch />
+          <hr />
+          <Header />
+          <hr />
+          <TodoList />
+        </div>
+      </Provider>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
