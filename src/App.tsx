@@ -3,20 +3,21 @@ import Header from "./components/Header";
 import ThemeSwitch from "./components/ThemeSwitch";
 import TodoList from "./components/TodoList";
 import { ThemeProvider } from "./contexts/ThemeContext";
-// import { TodoProvider } from "./contexts/TodoContext";
+import { Provider } from "react-redux";
+import { store } from "./stores/store";
 
 function App() {
   return (
     <ThemeProvider>
-      {/* <TodoProvider> */}
-      <div>
-        <ThemeSwitch />
-        <hr />
-        <Header />
-        <hr />
-        <TodoList />
-      </div>
-      {/* </TodoProvider> */}
+      <Provider store={store}>
+        <div>
+          <ThemeSwitch />
+          <hr />
+          <Header />
+          <hr />
+          <TodoList />
+        </div>
+      </Provider>
     </ThemeProvider>
   );
 }

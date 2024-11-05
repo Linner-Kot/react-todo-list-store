@@ -2,25 +2,32 @@ import { useEffect, useState } from "react";
 import TotoItem from "./TotoItem";
 import SearchInput from "./SearchInput";
 import { useDebounce } from "../hooks/useDebounce";
-import { useTodoStore } from "../stores/useTodoStore";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addTask,
+  deleteTask,
+  fetchTodos,
+  selectTodos,
+  toggleCompletion,
+} from "../stores/todoSlice.ts";
 
 export default function TodoList() {
-  const { todos, addTask, toggleCompletion, deleteTask, fetchTodos } =
-    useTodoStore();
+  const dispatch = useDispatch();
+  const todos = useSelector(selectTodos);
   const [newTask, setNewTask] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const debouncedSearchValue = useDebounce(searchInput, 500);
 
   useEffect(() => {
-    fetchTodos()
-  }, [fetchTodos]);
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
   const addTaskHandle = () => {
-    if(!newTask) return
+    if (!newTask) return;
 
-    addTask(newTask)
-    setNewTask('')
-  }
+    dispatch(addTask(newTask));
+    setNewTask("");
+  };
 
   const filteredTodos = todos.filter((todo) =>
     todo.title
@@ -50,8 +57,8 @@ export default function TodoList() {
             id={todo.id}
             title={todo.title}
             completed={todo.completed}
-            deleteTask={deleteTask}
-            toggleCompletion={toggleCompletion}
+            deleteTask={(id) => dispatch(deleteTask(id))}
+            toggleCompletion={(id) => dispatch(toggleCompletion(id))}
             key={todo.id}
           />
         ))}
